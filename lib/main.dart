@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   return runApp(
@@ -6,7 +7,7 @@ void main() {
       home: Scaffold(
         backgroundColor: Colors.pink.shade300,
         appBar: AppBar(
-          title: Center(
+          title: const Center(
             child: Text('Dicee'),
           ),
           backgroundColor: Colors.pink.shade200,
@@ -17,21 +18,46 @@ void main() {
   );
 }
 
-class DiceApp extends StatelessWidget {
+class DiceApp extends StatefulWidget {
   const DiceApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<DiceApp> createState() => _DiceAppState();
+}
+
+class _DiceAppState extends State<DiceApp> {
+  int leftDiceNumber = 1;
+  int rightDiceNumber = 1;
+
+  void changeDiceFace() {
+    setState(() {
+      leftDiceNumber = Random().nextInt(6) + 1;
+      rightDiceNumber = Random().nextInt(6) + 1;
+    });
+  }
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Image.asset('images/dice1.png')
-        ),
-        Expanded(
-          child: Image.asset('images/dice1.png')
-        ),
-      ],
+    return Center(
+      child: Row(
+        children: [
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                changeDiceFace();
+              },
+              child: Image.asset('images/dice$leftDiceNumber.png'),
+            ),
+          ),
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                changeDiceFace();
+              },
+              child: Image.asset('images/dice$rightDiceNumber.png'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
